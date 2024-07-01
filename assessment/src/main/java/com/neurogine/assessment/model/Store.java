@@ -16,9 +16,12 @@ import lombok.EqualsAndHashCode;
 @Document(collection = "stores")
 public class Store extends BaseModel {
 
+	private String storePhotoPath;
 	private String storeName;
 	private double distance;
+	private String distanceUnit;
 	private int eta;
+	private String etaUnit;
 	private double rating;
 	private String category;
 	private String type;
@@ -28,19 +31,22 @@ public class Store extends BaseModel {
 	@Data
 	public static class Discount {
 		private boolean available;
-		private double amount;
+		private String description;
 
 	}
 
 	public Store() {
 	}
 
-	public Store(String storeName, double distance, int eta, double rating, String category, String type,
-			Discount discount, String promotion) {
+	public Store(String storePhotoPath, String storeName, double distance, String distanceUnit, int eta, String etaUnit,
+			double rating, String category, String type, Discount discount, String promotion) {
 		super();
+		this.storePhotoPath = storePhotoPath;
 		this.storeName = storeName;
 		this.distance = distance;
+		this.distanceUnit = distanceUnit;
 		this.eta = eta;
+		this.etaUnit = etaUnit;
 		this.rating = rating;
 		this.category = category;
 		this.type = type;

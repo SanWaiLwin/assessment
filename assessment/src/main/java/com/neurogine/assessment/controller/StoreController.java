@@ -12,14 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.neurogine.assessment.common.CommonConstants;
 import com.neurogine.assessment.config.IntegrationConfig.CreateStoreGateway;
 import com.neurogine.assessment.config.IntegrationConfig.DeleteStoreGateway;
+import com.neurogine.assessment.config.IntegrationConfig.GetStoreListGateway;
 import com.neurogine.assessment.config.IntegrationConfig.UpdateStoreGateway;
 import com.neurogine.assessment.request.CreateStoreRequest;
 import com.neurogine.assessment.request.DeleteStoreRequest;
 import com.neurogine.assessment.request.StoreListRequest;
 import com.neurogine.assessment.request.UpdateStoreRequest;
 import com.neurogine.assessment.response.StoreListResponse;
-import com.neurogine.assessment.service.StoreService;
-
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
@@ -32,14 +31,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/stores")
 public class StoreController {
 
-	private final StoreService storeService;
+	private final GetStoreListGateway getStoreListGateway;
 	private final CreateStoreGateway createStoreGateway;
 	private final UpdateStoreGateway updateStoreGateway;
 	private final DeleteStoreGateway deleteStoreGateway;
 
-	public StoreController(StoreService storeService, CreateStoreGateway createStoreGateway,
+	public StoreController(GetStoreListGateway getStoreListGateway, CreateStoreGateway createStoreGateway,
 			UpdateStoreGateway updateStoreGateway, DeleteStoreGateway deleteStoreGateway) {
-		this.storeService = storeService;
+		this.getStoreListGateway = getStoreListGateway;
 		this.createStoreGateway = createStoreGateway;
 		this.updateStoreGateway = updateStoreGateway;
 		this.deleteStoreGateway = deleteStoreGateway;
@@ -47,7 +46,7 @@ public class StoreController {
 
 	@PostMapping("/getStoreList")
 	public ResponseEntity<StoreListResponse> getStoreList(@Valid @RequestBody StoreListRequest request) {
-		StoreListResponse response = storeService.getStoreList(request);
+		StoreListResponse response = getStoreListGateway.getStoreList(request);
 		return ResponseEntity.ok(response);
 	}
 
@@ -67,6 +66,6 @@ public class StoreController {
 	public ResponseEntity<String> deleteStore(@Valid @RequestBody DeleteStoreRequest request) {
 		deleteStoreGateway.deleteStore(request);
 		return ResponseEntity.status(HttpStatus.OK).body(CommonConstants.STORE_DELETE_SUCCESS_MSG);
-	}
+	} 
 
 }

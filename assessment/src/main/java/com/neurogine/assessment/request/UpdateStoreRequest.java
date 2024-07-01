@@ -22,14 +22,23 @@ public class UpdateStoreRequest implements Serializable {
 	@NotBlank(message = "Id cannot be blank") 
 	private String id;
 	
+	@NotBlank(message = "Store photo cannot be blank")
+	private String storePhotoPath;
+	
 	@NotBlank(message = "Store name cannot be blank")
 	private String storeName;
 
 	@PositiveOrZero(message = "Ditance must be a positive number or zero")
 	private double distance;
+	
+	@NotBlank(message = "Distance unit cannot be blank")
+	private String distanceUnit;
 
 	@PositiveOrZero(message = "Estimate time of arrival must be a positive number or zero")
-	private int estimateTimeOfArrival;
+	private int eta;
+	
+	@NotBlank(message = "Estimate time of arrival unit must be a positive number or zero")
+	private String etaUnit;
 
 	@PositiveOrZero(message = "Rating must be a positive number or zero")
 	private double rating;
@@ -41,10 +50,10 @@ public class UpdateStoreRequest implements Serializable {
 	private String type;
 	
 	@NotNull(message = "Discount availability must be specified")
-    private Boolean discountIsAvailable;
+    private Boolean discountIsAvailable; 
 	
-	@PositiveOrZero(message = "Discount amount must be a positive number or zero")
-	private double discountAmount;
+	@NotBlank(message = "Discount description cannot be blank")
+	private String discountDescription;
 	
 	@NotBlank(message = "Promotion cannot be blank")
 	private String promotion;

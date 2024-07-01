@@ -74,16 +74,19 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	private void updateExistingStore(Store existingStore, UpdateStoreRequest request) {
+		existingStore.setStorePhotoPath(request.getStorePhotoPath());
 		existingStore.setStoreName(request.getStoreName());
 		existingStore.setDistance(request.getDistance());
-		existingStore.setEta(request.getEstimateTimeOfArrival());
+		existingStore.setDistanceUnit(request.getDistanceUnit());
+		existingStore.setEta(request.getEta());
+		existingStore.setEtaUnit(request.getEtaUnit());
 		existingStore.setRating(request.getRating());
 		existingStore.setCategory(request.getCategory());
 		existingStore.setType(request.getType());
 		
 		Discount discount = new Discount();
 		discount.setAvailable(request.getDiscountIsAvailable());
-		discount.setAmount(request.getDiscountAmount());
+		discount.setDescription(request.getDiscountDescription());
 		
 		existingStore.setDiscount(discount);
 		existingStore.setPromotion(request.getPromotion());
@@ -92,16 +95,19 @@ public class StoreServiceImpl implements StoreService {
 
 	private Store convertEntityFromRequest(CreateStoreRequest request) {
 		Store entity = new Store();
+		entity.setStorePhotoPath(request.getStorePhotoPath());
 		entity.setStoreName(request.getStoreName());
 		entity.setDistance(request.getDistance());
-		entity.setEta(request.getEstimateTimeOfArrival());
+		entity.setDistanceUnit(request.getDistanceUnit());
+		entity.setEta(request.getEta());
+		entity.setEtaUnit(request.getEtaUnit());
 		entity.setRating(request.getRating());
 		entity.setCategory(request.getCategory());
 		entity.setType(request.getType());
 		
 		Discount discount = new Discount();
 		discount.setAvailable(request.getDiscountIsAvailable());
-		discount.setAmount(request.getDiscountAmount());
+		discount.setDescription(request.getDiscountDescription());
 		
 		entity.setDiscount(discount);
 		entity.setPromotion(request.getPromotion());

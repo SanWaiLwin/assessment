@@ -1,37 +1,150 @@
-HELP.md
+# Compiled source #
+###################
+*.class
+
+# Log files #
+############
+*.log
+
+# BlueJ files #
+###############
+*.ctxt
+
+# Mobile Tools for Java (J2ME) #
+###############################
+.mtj.tmp/
+
+# Package Files #
+#################
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# Gradle #
+##########
 .gradle
 build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
+out/
+!gradle-wrapper.jar
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### IntelliJ IDEA ###
+# IntelliJ IDEA #
+#################
 .idea
 *.iws
 *.iml
 *.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
+# VS Code #
+###########
 .vscode/
+
+# Eclipse #
+###########
+.project
+.classpath
+.c9/
+.settings/
+
+# Spring Boot #
+###############
+spring.log
+
+# Java #
+########
+*.class
+
+# Node #
+########
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Logs #
+########
+*.log
+
+# OS-specific #
+###############
+.DS_Store
+Thumbs.db
+
+# IDE-specific #
+################
+*.swp
+*.swo
+*~
+.idea/
+.project
+.classpath
+.settings/
+.vscode/
+
+# Maven #
+#########
+target/
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle #
+##########
+.gradle/
+build/
+!gradle-wrapper.jar
+!gradlew
+!gradlew.bat
+.gradle/
+/build/
+out/
+
+# Sass #
+########
+.sass-cache/
+
+# Environment variable files #
+##############################
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Mac #
+#######
+.DS_Store
+
+# Windows #
+###########
+Thumbs.db
+
+# Linux #
+#########
+*.un~
+
+# Other #
+#########
+*.log
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Local development files #
+###########################
+*.local
+
+# Generated file #
+##################
+generated/

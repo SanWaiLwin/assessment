@@ -8,7 +8,9 @@ import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import com.neurogine.assessment.request.CreateStoreRequest;
 import com.neurogine.assessment.request.DeleteStoreRequest;
+import com.neurogine.assessment.request.StoreListRequest;
 import com.neurogine.assessment.request.UpdateStoreRequest;
+import com.neurogine.assessment.response.StoreListResponse;
 import com.neurogine.assessment.service.StoreService;
 
 /**
@@ -19,6 +21,11 @@ import com.neurogine.assessment.service.StoreService;
  */
 @Configuration
 public class IntegrationConfig {
+
+	@Bean
+	public DirectChannel getStoreListChannel() {
+		return new DirectChannel();
+	}
 
 	@Bean
 	public DirectChannel createStoreChannel() {
@@ -33,6 +40,11 @@ public class IntegrationConfig {
 	@Bean
 	public DirectChannel deleteStoreChannel() {
 		return new DirectChannel();
+	}
+
+	@Bean
+	public IntegrationFlow getStoreListFlow(StoreService storeService) {
+		return IntegrationFlows.from("getStoreListChannel").handle(storeService, "getStoreList").get();
 	}
 
 	@Bean
@@ -63,6 +75,11 @@ public class IntegrationConfig {
 			}
 			return null;
 		}).get();
+	}
+
+	@MessagingGateway(defaultRequestChannel = "getStoreListChannel")
+	public interface GetStoreListGateway {
+		StoreListResponse getStoreList(StoreListRequest request);
 	}
 
 	@MessagingGateway(defaultRequestChannel = "createStoreChannel")
