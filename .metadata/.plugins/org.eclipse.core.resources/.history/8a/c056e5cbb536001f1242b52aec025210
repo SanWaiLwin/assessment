@@ -1,0 +1,39 @@
+package com.neurogine.assessment.service.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.neurogine.assessment.dto.StoreDTO;
+import com.neurogine.assessment.model.Store;
+import com.neurogine.assessment.repository.StoreRepository;
+import com.neurogine.assessment.request.StoreListRequest;
+import com.neurogine.assessment.response.StoreListResponse;
+import com.neurogine.assessment.service.StoreService;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 12:16:42 PM
+ */
+@Service
+public class StoreServiceImpl implements StoreService {
+
+	private final StoreRepository storeRepository;
+
+    public StoreServiceImpl(StoreRepository storeRepository) {
+        this.storeRepository = storeRepository;
+    }
+    
+	@Override
+	public StoreListResponse getStoreList(StoreListRequest request) {
+		List<Store> stores = storeRepository.findAll();
+		
+		List<StoreDTO> storeDtos = stores.stream().map(e -> new StoreDTO(e)).collect(null)
+		StoreListResponse response = new StoreListResponse();
+		response.setContent(allData);
+		return allData;
+	}
+
+}

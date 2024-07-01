@@ -1,0 +1,11 @@
+package com.neurogine.assessment.repository;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 2:31:32 PM
+ */
+public class StoreRepository {
+
+}

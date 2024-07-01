@@ -1,0 +1,85 @@
+package com.neurogine.assessment.config;
+ 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.annotation.IntegrationComponentScan;
+import org.springframework.integration.dsl.IntegrationFlows;
+import org.springframework.integration.dsl.MessageChannels;
+import org.springframework.integration.dsl.StandardIntegrationFlow;
+import org.springframework.messaging.MessageChannel;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jul 1, 2024 9:12:52 AM
+ */
+@Configuration
+public class IntegrationConfig {
+
+    @Bean
+    public DirectChannel createStoreChannel() {
+        return new DirectChannel();
+    }
+
+    @Bean
+    public DirectChannel updateStoreChannel() {
+        return new DirectChannel();
+    }
+
+    @Bean
+    public DirectChannel deleteStoreChannel() {
+        return new DirectChannel();
+    }
+
+    @Bean
+    public IntegrationFlow createStoreFlow(StoreService storeService) {
+        return IntegrationFlows.from("createStoreChannel")
+                .handle((payload, headers) -> {
+                    if (payload instanceof CreateStoreRequest) {
+                        storeService.createStore((CreateStoreRequest) payload);
+                    }
+                    return null; // Return null as we're not expecting a reply
+                })
+                .get();
+    }
+
+    @Bean
+    public IntegrationFlow updateStoreFlow(StoreService storeService) {
+        return IntegrationFlows.from("updateStoreChannel")
+                .handle((payload, headers) -> {
+                    if (payload instanceof UpdateStoreRequest) {
+                        storeService.updateStore((UpdateStoreRequest) payload);
+                    }
+                    return null; // Return null as we're not expecting a reply
+                })
+                .get();
+    }
+
+    @Bean
+    public IntegrationFlow deleteStoreFlow(StoreService storeService) {
+        return IntegrationFlows.from("deleteStoreChannel")
+                .handle((payload, headers) -> {
+                    if (payload instanceof DeleteStoreRequest) {
+                        storeService.deleteStore((DeleteStoreRequest) payload);
+                    }
+                    return null; // Return null as we're not expecting a reply
+                })
+                .get();
+    }
+
+    @MessagingGateway(defaultRequestChannel = "createStoreChannel")
+    public interface CreateStoreGateway {
+        void create(CreateStoreRequest request);
+    }
+
+    @MessagingGateway(defaultRequestChannel = "updateStoreChannel")
+    public interface UpdateStoreGateway {
+        void update(UpdateStoreRequest request);
+    }
+
+    @MessagingGateway(defaultRequestChannel = "deleteStoreChannel")
+    public interface DeleteStoreGateway {
+        void delete(DeleteStoreRequest request);
+    }
+}

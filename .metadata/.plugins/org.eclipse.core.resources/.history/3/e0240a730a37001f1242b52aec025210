@@ -1,0 +1,11 @@
+package com.neurogine.assessment.request;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jul 1, 2024 12:58:31 AM
+ */
+public class UpdateStoreRequest {
+
+}

@@ -1,0 +1,27 @@
+package com.neurogine.assessment.controller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.neurogine.assessment.service.StoreService;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 11:29:59 AM
+ */
+@RestController
+@RequestMapping("/api/stores")
+public class StoreController {
+
+	private static final Logger logger = LoggerFactory.getLogger(StoreController.class);
+
+    private final StoreService storeService;
+
+    public StoreController(StoreService storeService) {
+        this.storeService = storeService;
+    }
+}

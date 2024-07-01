@@ -1,0 +1,11 @@
+package com.neurogine.assessment.dto;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 2:21:10 PM
+ */
+public class StoreDTO {
+
+}

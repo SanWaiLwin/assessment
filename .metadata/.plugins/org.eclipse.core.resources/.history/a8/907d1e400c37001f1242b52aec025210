@@ -1,0 +1,160 @@
+package com.neurogine.assessment.service.impl;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.neurogine.assessment.dto.StoreDTO;
+import com.neurogine.assessment.model.Store;
+import com.neurogine.assessment.repository.StoreRepository;
+import com.neurogine.assessment.request.CreateStoreRequest;
+import com.neurogine.assessment.request.StoreListRequest;
+import com.neurogine.assessment.request.UpdateStoreRequest;
+import com.neurogine.assessment.response.StoreListResponse;
+import com.neurogine.assessment.service.StoreService;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 12:16:42 PM
+ */
+@Service
+public class StoreServiceImpl implements StoreService {
+
+	private static final Logger logger = LoggerFactory.getLogger(StoreServiceImpl.class);
+
+	private final StoreRepository storeRepository;
+
+	public StoreServiceImpl(StoreRepository storeRepository) {
+		this.storeRepository = storeRepository;
+	}
+
+	@Override
+	public StoreListResponse getStoreList(StoreListRequest request) {
+		try {
+			Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
+			Page<Store> storePage = storeRepository.findAll(pageable);
+
+			List<StoreDTO> storeDtos = storePage.getContent().stream().map(StoreDTO::new).collect(Collectors.toList());
+			logger.info("Retrieved {} stores from page {} with size {}", storeDtos.size(), storePage.getNumber(),
+					storePage.getSize());
+
+			return new StoreListResponse(storeDtos, storePage.getNumber(), storePage.getSize(),
+					storePage.getTotalElements(), storePage.getTotalPages());
+		} catch (IllegalArgumentException | IllegalStateException e) {
+			logger.error("Invalid request or state: {}", e.getMessage());
+			throw new IllegalArgumentException("Invalid request", e);
+		} catch (Exception e) {
+			logger.error("Error retrieving store list: {}", e.getMessage());
+			throw new RuntimeException("Error retrieving store list", e);
+		}
+	}
+
+	@Override
+	public void createStore(CreateStoreRequest request) {
+		try {
+			Store entity = convertEntityFromRequest(request);
+			storeRepository.save(entity);
+			logger.info("Created new store: {}", entity);
+		} catch (IllegalArgumentException | IllegalStateException e) {
+			logger.error("Invalid request or state: {}", e.getMessage());
+			throw new IllegalArgumentException("Invalid request", e);
+		} catch (Exception e) {
+			logger.error("Error creating store: {}", e.getMessage());
+			throw new RuntimeException("Error creating store", e);
+		}
+	}
+
+	@Override
+	public void updateStore(UpdateStoreRequest request) {
+		try {
+			if (request.getId() == null) {
+				throw new IllegalArgumentException("Store ID must not be null for update");
+			}
+			Store existingStore = storeRepository.findById(request.getId())
+					.orElseThrow(() -> new IllegalArgumentException("Store not found"));
+
+			existingStore = convertDataToExistingStore(existingStore, request);
+
+			storeRepository.save(existingStore);
+			logger.info("Updated store: {}", existingStore);
+		} catch (IllegalArgumentException | IllegalStateException e) {
+			logger.error("Invalid request or state: {}", e.getMessage());
+			throw new IllegalArgumentException("Invalid request", e);
+		} catch (Exception e) {
+			logger.error("Error updating store: {}", e.getMessage());
+			throw new RuntimeException("Error updating store", e);
+		}
+	}
+	
+	@Override
+	public void updateStore(UpdateStoreRequest request) {
+	    try {
+	        validateUpdateRequest(request);
+
+	        Store existingStore = findExistingStore(request.getId());
+
+	        updateExistingStore(existingStore, request);
+
+	        storeRepository.save(existingStore);
+	        logger.info("Updated store: {}", existingStore);
+	    } catch (IllegalArgumentException | IllegalStateException e) {
+	        logger.error("Invalid request or state: {}", e.getMessage());
+	        throw new IllegalArgumentException("Invalid request", e);
+	    } catch (Exception e) {
+	        logger.error("Error updating store: {}", e.getMessage());
+	        throw new RuntimeException("Error updating store", e);
+	    }
+	}
+
+	private void validateUpdateRequest(UpdateStoreRequest request) {
+	    if (request.getId() == null) {
+	        throw new IllegalArgumentException("Store ID must not be null for update");
+	    }
+	}
+
+	private Store findExistingStore(String storeId) {
+	    return storeRepository.findById(storeId)
+	            .orElseThrow(() -> new IllegalArgumentException("Store not found"));
+	}
+
+	private void updateExistingStore(Store existingStore, UpdateStoreRequest request) {
+	    existingStore.setStoreName(request.getStoreName());
+	    existingStore.setDistance(request.getDistance());
+	    existingStore.setEta(request.getEstimateTimeOfArrival());
+	    existingStore.setRating(request.getRating());
+	    existingStore.setCategory(request.getCategory());
+	    existingStore.setType(request.getType());
+	    // Add any other fields that need updating
+	}
+
+
+	private Store convertDataToExistingStore(Store existingStore, UpdateStoreRequest request) {
+		existingStore.setStoreName(request.getStoreName());
+		existingStore.setDistance(request.getDistance());
+		existingStore.setEta(request.getEstimateTimeOfArrival());
+		existingStore.setRating(request.getRating());
+		existingStore.setCategory(request.getCategory());
+		existingStore.setType(request.getType());
+		return existingStore;
+	}
+
+	private Store convertEntityFromRequest(CreateStoreRequest request) {
+		Store entity = new Store();
+		entity.setStoreName(request.getStoreName());
+		entity.setDistance(request.getDistance());
+		entity.setEta(request.getEstimateTimeOfArrival());
+		entity.setRating(request.getRating());
+		entity.setCategory(request.getCategory());
+		entity.setType(request.getType());
+		return entity;
+	}
+
+}

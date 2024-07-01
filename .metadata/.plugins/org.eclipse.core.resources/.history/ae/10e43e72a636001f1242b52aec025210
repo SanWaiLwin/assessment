@@ -1,0 +1,18 @@
+package com.neurogine.assessment.response;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 12:25:46 PM
+ */
+public class StoreListResponse implements Serializable {
+
+	private static final long serialVersionUID = 3190616016700509203L;
+	
+//	private List<OrderDto> orders;
+
+}

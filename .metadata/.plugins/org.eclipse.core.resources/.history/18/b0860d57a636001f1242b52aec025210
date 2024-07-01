@@ -1,0 +1,11 @@
+package com.neurogine.assessment.common;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 1:02:23 PM
+ */
+public class ErrorResponse {
+
+}

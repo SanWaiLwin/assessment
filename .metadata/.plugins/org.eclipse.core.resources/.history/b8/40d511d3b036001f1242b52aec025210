@@ -1,0 +1,28 @@
+package com.neurogine.assessment.response;
+
+import java.util.List;
+
+import lombok.Data;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 2:16:58 PM
+ */
+@Data
+public class PaginatedResponse<T> {
+    private List<T> content;
+    private int page;
+    private int size;
+    private long totalElements;
+    private int totalPages;
+
+    public PaginatedResponse(List<T> content, int page, int size, long totalElements, int totalPages) {
+        this.content = content;
+        this.page = page;
+        this.size = size;
+        this.totalElements = totalElements;
+        this.totalPages = totalPages;
+    } 
+}

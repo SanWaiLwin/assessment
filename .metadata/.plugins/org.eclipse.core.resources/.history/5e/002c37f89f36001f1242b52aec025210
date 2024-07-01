@@ -1,0 +1,11 @@
+package com.neurogine.assessment.service.impl;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 12:16:42 PM
+ */
+public class StoreServiceImpl {
+
+}

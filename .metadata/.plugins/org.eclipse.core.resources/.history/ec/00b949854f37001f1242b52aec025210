@@ -1,0 +1,11 @@
+package com.neurogine.assessment.config;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jul 1, 2024 9:12:52 AM
+ */
+public class IntegrationConfig {
+
+}

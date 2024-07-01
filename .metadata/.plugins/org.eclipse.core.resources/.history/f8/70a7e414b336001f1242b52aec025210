@@ -1,0 +1,17 @@
+package com.neurogine.assessment.model;
+
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import lombok.Data;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 2:33:16 PM
+ */
+@Data
+@Document(collection = "stores")
+public class Store {
+
+}

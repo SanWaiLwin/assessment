@@ -1,0 +1,23 @@
+package com.neurogine.assessment.config;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jul 1, 2024 9:12:52 AM
+ */
+@Configuration
+public class IntegrationConfig {
+
+    @Bean
+    public MessageChannel inputChannel() {
+        return MessageChannels.direct().get();
+    }
+
+    @Bean
+    public StandardIntegrationFlow integrationFlow(StoreService storeService) {
+        return IntegrationFlows.from(inputChannel())
+                .handle(storeService, "getStoreList")
+                .get();
+    }
+}

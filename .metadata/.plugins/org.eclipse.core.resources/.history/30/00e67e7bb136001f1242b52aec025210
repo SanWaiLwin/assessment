@@ -1,0 +1,16 @@
+package com.neurogine.assessment.dto;
+
+import java.io.Serializable;
+
+import lombok.Data;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 2:21:10 PM
+ */
+@Data
+public class StoreDTO implements Serializable {private static final long serialVersionUID = 7543987644815754190L;
+
+}

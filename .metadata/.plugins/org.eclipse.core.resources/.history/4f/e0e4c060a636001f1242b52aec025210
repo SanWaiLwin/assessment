@@ -1,0 +1,16 @@
+package com.neurogine.assessment.common;
+
+import java.io.Serializable;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 1:02:23 PM
+ */
+public class ErrorResponse implements Serializable{
+	
+	private String message;
+    private int status;
+
+}

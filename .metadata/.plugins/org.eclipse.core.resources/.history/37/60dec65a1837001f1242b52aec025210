@@ -1,0 +1,24 @@
+package com.neurogine.assessment.model;
+
+import lombok.Data;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 2:40:13 PM
+ */
+@Data
+public class Promotion {
+
+	private String type;
+	private String details;
+
+	public Promotion() {
+	}
+
+	public Promotion(String type, String details) {
+		this.type = type;
+		this.details = details;
+	}
+}

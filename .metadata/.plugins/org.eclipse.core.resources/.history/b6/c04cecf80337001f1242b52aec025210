@@ -1,0 +1,11 @@
+package com.neurogine.assessment.model;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jul 1, 2024 12:11:57 AM
+ */
+public class BaseModel {
+
+}

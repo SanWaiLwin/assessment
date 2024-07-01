@@ -1,0 +1,11 @@
+package com.neurogine.assessment.response;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 3:03:15 PM
+ */
+public class CreateStoreResponse {
+
+}

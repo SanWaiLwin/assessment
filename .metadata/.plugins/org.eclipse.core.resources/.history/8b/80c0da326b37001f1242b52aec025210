@@ -1,0 +1,88 @@
+package com.neurogine.assessment.config;
+ 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.annotation.MessagingGateway;
+import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.dsl.IntegrationFlow;
+import org.springframework.integration.dsl.IntegrationFlows;
+import com.neurogine.assessment.request.CreateStoreRequest;
+import com.neurogine.assessment.request.DeleteStoreRequest;
+import com.neurogine.assessment.request.UpdateStoreRequest;
+import com.neurogine.assessment.service.StoreService;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jul 1, 2024 9:12:52 AM
+ */
+@Configuration
+public class IntegrationConfig {
+
+    @Bean
+    public DirectChannel createStoreChannel() {
+        return new DirectChannel();
+    }
+
+    @Bean
+    public DirectChannel updateStoreChannel() {
+        return new DirectChannel();
+    }
+
+    @Bean
+    public DirectChannel deleteStoreChannel() {
+        return new DirectChannel();
+    } 
+
+    @Bean
+    public IntegrationFlow createStoreFlow(StoreService storeService) {
+        return IntegrationFlows.from("createStoreChannel")
+                .handle((payload, headers) -> {
+                    if (payload instanceof CreateStoreRequest) {
+                        storeService.createStore((CreateStoreRequest) payload);
+                    }
+                    return null;
+                })
+                .get();
+    }
+
+    @Bean
+    public IntegrationFlow updateStoreFlow(StoreService storeService) {
+        return IntegrationFlows.from("updateStoreChannel")
+                .handle((payload, headers) -> {
+                    if (payload instanceof UpdateStoreRequest) {
+                        storeService.updateStore((UpdateStoreRequest) payload);
+                    }
+                    return null;
+                })
+                .get();
+    }
+
+    @Bean
+    public IntegrationFlow deleteStoreFlow(StoreService storeService) {
+        return IntegrationFlows.from("deleteStoreChannel")
+                .handle((payload, headers) -> {
+                    if (payload instanceof DeleteStoreRequest) {
+                        storeService.deleteStore((DeleteStoreRequest) payload);
+                    }
+                    return null;
+                })
+                .get();
+    } 
+
+    @MessagingGateway(defaultRequestChannel = "createStoreChannel")
+    public interface CreateStoreGateway {
+        void createStore(CreateStoreRequest request);
+    }
+
+    @MessagingGateway(defaultRequestChannel = "updateStoreChannel")
+    public interface UpdateStoreGateway {
+        void updateStore(UpdateStoreRequest request);
+    }
+
+    @MessagingGateway(defaultRequestChannel = "deleteStoreChannel")
+    public interface DeleteStoreGateway {
+        void deleteStore(DeleteStoreRequest request);
+    }
+}

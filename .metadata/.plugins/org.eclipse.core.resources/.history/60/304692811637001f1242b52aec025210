@@ -1,0 +1,11 @@
+package com.neurogine.assessment.common;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jul 1, 2024 2:24:25 AM
+ */
+public class CommonConstants {
+
+}

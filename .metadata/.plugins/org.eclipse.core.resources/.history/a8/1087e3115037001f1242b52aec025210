@@ -1,0 +1,31 @@
+package com.neurogine.assessment.config;
+ 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.dsl.IntegrationFlows;
+import org.springframework.integration.dsl.MessageChannels;
+import org.springframework.integration.dsl.StandardIntegrationFlow;
+import org.springframework.messaging.MessageChannel;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jul 1, 2024 9:12:52 AM
+ */
+@Configuration
+public class IntegrationConfig {
+
+    @Bean
+    public MessageChannel inputChannel() {
+        return MessageChannels.direct().get();
+    }
+
+    @Bean
+    public StandardIntegrationFlow integrationFlow(StoreService storeService) {
+        return IntegrationFlows.from(inputChannel())
+                .handle(storeService, "getStoreList")
+                .get();
+    }
+}

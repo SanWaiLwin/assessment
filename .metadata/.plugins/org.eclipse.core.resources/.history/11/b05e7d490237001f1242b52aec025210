@@ -1,0 +1,76 @@
+package com.neurogine.assessment.service.impl;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.neurogine.assessment.dto.StoreDTO;
+import com.neurogine.assessment.model.Store;
+import com.neurogine.assessment.repository.StoreRepository;
+import com.neurogine.assessment.request.CreateStoreRequest;
+import com.neurogine.assessment.request.StoreListRequest;
+import com.neurogine.assessment.response.StoreListResponse;
+import com.neurogine.assessment.service.StoreService;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 12:16:42 PM
+ */
+@Service
+public class StoreServiceImpl implements StoreService {
+
+	private final StoreRepository storeRepository;
+
+	public StoreServiceImpl(StoreRepository storeRepository) {
+		this.storeRepository = storeRepository;
+	}
+
+//	@Override
+//	public StoreListResponse getStoreList(StoreListRequest request) {
+//		PageRequest pageRequest = PageRequest.of(request.getPage(), request.getSize());
+//		Page<Store> storePage = storeRepository.findAll(pageRequest);
+//
+//		Pageable pageable = storePage.getPageable();
+//
+//		List<StoreDTO> storeDtos = storePage.stream().map(e -> new StoreDTO(e)).collect(Collectors.toList());
+//		StoreListResponse response = new StoreListResponse(storeDtos, pageable.getPageNumber(), pageable.getPageSize(),
+//				storePage.getTotalElements(), storePage.getTotalPages());
+//		return response;
+//	}
+	
+	 public StoreListResponse getStoreList(StoreListRequest request) {
+	        Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
+	        Page<Store> storePage = storeRepository.findAll(pageable);
+
+	        List<StoreDTO> storeDtos = storePage.getContent().stream()
+	                .map(StoreDTO::new) // Assuming StoreDTO has a constructor that accepts Store
+	                .collect(Collectors.toList());
+
+	        return new StoreListResponse(storeDtos, storePage.getNumber(), storePage.getSize(),
+	                storePage.getTotalElements(), storePage.getTotalPages());
+	    }
+
+	@Override
+	public void createStore(CreateStoreRequest request) {
+		Store entity = convertEntityFromRequest(request);
+		storeRepository.save(entity);
+	}
+
+	private Store convertEntityFromRequest(CreateStoreRequest request) {
+		Store entity = new Store();
+		entity.setStoreName(request.getStoreName());
+		entity.setDistance(request.getDistance());
+		entity.setEta(request.getEstimateTimeOfArrival());
+		entity.setRating(request.getRating());
+		entity.setCategory(request.getCategory());
+		entity.setType(request.getType());
+		return entity;
+	}
+
+}

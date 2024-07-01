@@ -1,0 +1,11 @@
+package com.neurogine.assessment.exception;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 1:26:47 PM
+ */
+public class ResourceNotFoundException {
+
+}

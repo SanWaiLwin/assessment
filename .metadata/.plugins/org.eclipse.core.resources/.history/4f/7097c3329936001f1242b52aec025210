@@ -1,0 +1,34 @@
+package com.neurogine.assessment.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 12:36:48 AM
+ */ 
+@Configuration
+public class SwaggerConfig {
+
+//	@Bean
+//    public Docket api() {
+//        return new Docket(DocumentationType.OAS_30)
+//                .select()
+//                .build()
+//                .apiInfo(apiInfo());
+//    }
+//
+//    private ApiInfo apiInfo() {
+//        return new ApiInfoBuilder()
+//                .title("Assessment API")
+//                .description("API documentation for the Assessment project")
+//                .version("1.0")
+//                .build();
+//    }
+}

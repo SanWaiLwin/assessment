@@ -1,0 +1,31 @@
+package com.neurogine.assessment.service.impl;
+
+import org.springframework.stereotype.Service;
+
+import com.neurogine.assessment.repository.StoreRepository;
+import com.neurogine.assessment.request.StoreListRequest;
+import com.neurogine.assessment.response.StoreListResponse;
+import com.neurogine.assessment.service.StoreService;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 12:16:42 PM
+ */
+@Service
+public class StoreServiceImpl implements StoreService {
+
+	private final StoreRepository storeRepository;
+
+    public StoreServiceImpl(StoreRepository storeRepository) {
+        this.storeService = storeService;
+    }
+    
+	@Override
+	public StoreListResponse getStoreList(StoreListRequest request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

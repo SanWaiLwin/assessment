@@ -1,0 +1,103 @@
+package com.neurogine.assessment.service.impl;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.neurogine.assessment.dto.StoreDTO;
+import com.neurogine.assessment.model.Store;
+import com.neurogine.assessment.repository.StoreRepository;
+import com.neurogine.assessment.request.CreateStoreRequest;
+import com.neurogine.assessment.request.StoreListRequest;
+import com.neurogine.assessment.response.StoreListResponse;
+import com.neurogine.assessment.service.StoreService;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 12:16:42 PM
+ */
+@Service
+public class StoreServiceImpl implements StoreService {
+
+	private static final Logger logger = LoggerFactory.getLogger(StoreServiceImpl.class);
+
+	private final StoreRepository storeRepository;
+
+	public StoreServiceImpl(StoreRepository storeRepository) {
+		this.storeRepository = storeRepository;
+	}
+
+//	public StoreListResponse getStoreList(StoreListRequest request) {
+//		Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
+//		Page<Store> storePage = storeRepository.findAll(pageable);
+//
+//		List<StoreDTO> storeDtos = storePage.getContent().stream().map(StoreDTO::new).collect(Collectors.toList());
+//		logger.info("Retrieved {} stores from page {} with size {}", storeDtos.size(), storePage.getNumber(), storePage.getSize());
+//
+//		return new StoreListResponse(storeDtos, storePage.getNumber(), storePage.getSize(),
+//				storePage.getTotalElements(), storePage.getTotalPages());
+//	}
+//
+//	@Override
+//	public void createStore(CreateStoreRequest request) {
+//		Store entity = convertEntityFromRequest(request);
+//		storeRepository.save(entity);
+//		logger.info("Created new store: {}", entity);
+//	}
+
+	@Override
+	public StoreListResponse getStoreList(StoreListRequest request) {
+		try {
+			Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
+			Page<Store> storePage = storeRepository.findAll(pageable);
+
+			List<StoreDTO> storeDtos = storePage.getContent().stream().map(StoreDTO::new).collect(Collectors.toList());
+			logger.info("Retrieved {} stores from page {} with size {}", storeDtos.size(), storePage.getNumber(),
+					storePage.getSize());
+
+			return new StoreListResponse(storeDtos, storePage.getNumber(), storePage.getSize(),
+					storePage.getTotalElements(), storePage.getTotalPages());
+		} catch (IllegalArgumentException | IllegalStateException e) {
+			logger.error("Invalid request or state: {}", e.getMessage());
+			throw new IllegalArgumentException("Invalid request", e); // or wrap with custom exception
+		} catch (Exception e) {
+			logger.error("Error retrieving store list: {}", e.getMessage());
+			throw new RuntimeException("Error retrieving store list", e); // or wrap with custom exception
+		}
+	}
+
+	@Override
+	public void createStore(CreateStoreRequest request) {
+		try {
+			Store entity = convertEntityFromRequest(request);
+			storeRepository.save(entity);
+			logger.info("Created new store: {}", entity);
+		} catch (IllegalArgumentException | IllegalStateException e) {
+			logger.error("Invalid request or state: {}", e.getMessage());
+			throw new IllegalArgumentException("Invalid request", e); // or wrap with custom exception
+		} catch (Exception e) {
+			logger.error("Error creating store: {}", e.getMessage());
+			throw new RuntimeException("Error creating store", e); // or wrap with custom exception
+		}
+	}
+
+	private Store convertEntityFromRequest(CreateStoreRequest request) {
+		Store entity = new Store();
+		entity.setStoreName(request.getStoreName());
+		entity.setDistance(request.getDistance());
+		entity.setEta(request.getEstimateTimeOfArrival());
+		entity.setRating(request.getRating());
+		entity.setCategory(request.getCategory());
+		entity.setType(request.getType());
+		return entity;
+	}
+
+}

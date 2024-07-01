@@ -1,0 +1,11 @@
+package com.neurogine.assessment.aspect;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jul 1, 2024 12:35:49 PM
+ */
+public class LoggingAspect {
+
+}

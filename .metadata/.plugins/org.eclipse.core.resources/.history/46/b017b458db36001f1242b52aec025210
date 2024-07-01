@@ -1,0 +1,43 @@
+package com.neurogine.assessment.request;
+
+import java.io.Serializable;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.PositiveOrZero;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Data;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 2:58:22 PM
+ */
+@Data
+public class CreateStoreRequest implements Serializable {
+	
+	private static final long serialVersionUID = 1188400372093070605L;
+
+	@JsonProperty("storeName")
+//	@NotBlank(message = "Store name cannot be blank")
+    private String storeName;
+
+//    @NotBlank(message = "Distance cannot be blank")
+//    @Pattern(regexp = "\\d+(\\.\\d+)?", message = "Distance must be a valid number")
+    private String distance;
+
+//    @NotBlank(message = "Estimated time of arrival cannot be blank")
+    private String estimateTimeOfArrival;
+
+//    @PositiveOrZero(message = "Rating must be a positive number or zero")
+    private double rating;
+
+//    @NotBlank(message = "Category cannot be blank")
+    private String category;
+
+//    @NotBlank(message = "Type cannot be blank")
+    private String type;
+}

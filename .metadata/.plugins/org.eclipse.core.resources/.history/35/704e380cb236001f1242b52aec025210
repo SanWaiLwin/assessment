@@ -1,0 +1,13 @@
+package com.neurogine.assessment.service.impl;
+
+import com.neurogine.assessment.service.StoreService;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 12:16:42 PM
+ */
+public class StoreServiceImpl implements StoreService {
+
+}

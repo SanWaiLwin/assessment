@@ -1,0 +1,85 @@
+package com.neurogine.assessment.controller;
+
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.neurogine.assessment.common.CommonConstants;
+import com.neurogine.assessment.config.IntegrationConfig.CreateStoreGateway;
+import com.neurogine.assessment.config.IntegrationConfig.DeleteStoreGateway;
+import com.neurogine.assessment.config.IntegrationConfig.UpdateStoreGateway;
+import com.neurogine.assessment.request.CreateStoreRequest;
+import com.neurogine.assessment.request.DeleteStoreRequest;
+import com.neurogine.assessment.request.StoreListRequest;
+import com.neurogine.assessment.request.UpdateStoreRequest;
+import com.neurogine.assessment.response.StoreListResponse;
+import com.neurogine.assessment.service.StoreService;
+
+import org.springframework.web.bind.annotation.RequestBody;
+
+/**
+ * @version : 1.0.0
+ * @description :
+ * @author : SanWaiLwin
+ * @date : Jun 30, 2024 11:29:59 AM
+ */
+@RestController
+@RequestMapping("/api/stores")
+public class StoreController {
+
+	private static final Logger logger = LoggerFactory.getLogger(StoreController.class);
+
+	private final StoreService storeService;
+	private final CreateStoreGateway createStoreGateway;
+	private final UpdateStoreGateway updateStoreGateway;
+	private final DeleteStoreGateway deleteStoreGateway;
+	private final 
+
+	public StoreController(StoreService storeService, CreateStoreGateway createStoreGateway,
+			UpdateStoreGateway updateStoreGateway, DeleteStoreGateway deleteStoreGateway) {
+		this.storeService = storeService;
+		this.createStoreGateway = createStoreGateway;
+		this.updateStoreGateway = updateStoreGateway;
+		this.deleteStoreGateway = deleteStoreGateway;
+	}
+
+	@PostMapping("/getStoreList")
+	public ResponseEntity<StoreListResponse> getStoreList(@Valid @RequestBody StoreListRequest request) {
+		logger.info("Received request to get store list with parameters: {}", request);
+		StoreListResponse response = storeService.getStoreList(request);
+		logger.info("Returned store list response with {} stores", response.getContent().size());
+		return ResponseEntity.ok(response);
+	}
+
+	@PostMapping("/createStore")
+	public ResponseEntity<String> createStore(@Valid @RequestBody CreateStoreRequest request) {
+		logger.info("Received request to create store with data: {}", request);
+		createStoreGateway.createStore(request);
+		logger.info(CommonConstants.STORE_CREATE_SUCCESS_MSG);
+		return ResponseEntity.status(HttpStatus.CREATED).body(CommonConstants.STORE_CREATE_SUCCESS_MSG);
+	}
+
+	@PostMapping("/updateStore")
+	public ResponseEntity<String> updateStore(@Valid @RequestBody UpdateStoreRequest request) {
+		logger.info("Received request to update store with data: {}", request);
+		updateStoreGateway.updateStore(request);
+		logger.info(CommonConstants.STORE_UPDATE_SUCCESS_MSG);
+		return ResponseEntity.status(HttpStatus.OK).body(CommonConstants.STORE_UPDATE_SUCCESS_MSG);
+	}
+
+	@DeleteMapping("/deleteStore")
+	public ResponseEntity<String> deleteStore(@Valid @RequestBody DeleteStoreRequest request) {
+		logger.info("Received request to delete store with data: {}", request);
+		deleteStoreGateway.deleteStore(request);
+		logger.info(CommonConstants.STORE_DELETE_SUCCESS_MSG);
+		return ResponseEntity.status(HttpStatus.OK).body(CommonConstants.STORE_DELETE_SUCCESS_MSG);
+	}
+
+}
