@@ -6,12 +6,17 @@ import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
+import org.springframework.integration.http.outbound.HttpRequestExecutingMessageHandler;
+
 import com.neurogine.assessment.request.CreateStoreRequest;
 import com.neurogine.assessment.request.DeleteStoreRequest;
 import com.neurogine.assessment.request.StoreListRequest;
+import com.neurogine.assessment.request.TopupRequest;
 import com.neurogine.assessment.request.UpdateStoreRequest;
 import com.neurogine.assessment.response.StoreListResponse;
 import com.neurogine.assessment.service.StoreService;
+import com.neurogine.assessment.service.TopupService;
+import org.springframework.messaging.MessageHandler;
 
 /**
  * @version : 1.0.0
@@ -41,6 +46,11 @@ public class IntegrationConfig {
 	public DirectChannel deleteStoreChannel() {
 		return new DirectChannel();
 	}
+	
+	 @Bean
+	    public DirectChannel topupRequestChannel() {
+	        return new DirectChannel();
+	    }
 
 	@Bean
 	public IntegrationFlow getStoreListFlow(StoreService storeService) {
@@ -76,6 +86,22 @@ public class IntegrationConfig {
 			return null;
 		}).get();
 	}
+	
+	@Bean
+    public MessageHandler topupRequestHandler() {
+        HttpRequestExecutingMessageHandler handler = new HttpRequestExecutingMessageHandler("https://sb-open.revenuemonster.my/v3/wallet/topup");
+        handler.setHttpMethod(org.springframework.http.HttpMethod.POST);
+        handler.setExpectedResponseType(String.class);
+        handler.setHeaderMapper(new CustomHttpHeaderMapper());
+        return handler;
+    }
+
+    @Bean
+    public IntegrationFlow topupFlow(TopupService topupService) {
+        return IntegrationFlows.from("topupRequestChannel")
+                .handle(topupRequestHandler())
+                .get();
+    }
 
 	@MessagingGateway(defaultRequestChannel = "getStoreListChannel")
 	public interface GetStoreListGateway {
@@ -96,4 +122,9 @@ public class IntegrationConfig {
 	public interface DeleteStoreGateway {
 		void deleteStore(DeleteStoreRequest request);
 	}
+	
+	@MessagingGateway(defaultRequestChannel = "topupRequestChannel")
+    public interface TopupGateway {
+        void topup(TopupRequest request);
+    }
 }
