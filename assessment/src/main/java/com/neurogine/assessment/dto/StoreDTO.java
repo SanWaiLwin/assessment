@@ -18,6 +18,7 @@ public class StoreDTO implements Serializable {
 
 	private static final long serialVersionUID = 7543987644815754190L;
 
+	private String id;
 	private String storePhotoPath;
 	private String storeName;
 	private double distance;
@@ -32,6 +33,7 @@ public class StoreDTO implements Serializable {
 
 	public StoreDTO(Store entity) {
 		super();
+		this.id = entity.getId();
 		this.storePhotoPath = entity.getStorePhotoPath();
 		this.storeName = entity.getStoreName();
 		this.distance = entity.getDistance();

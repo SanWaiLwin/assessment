@@ -30,6 +30,10 @@ public class StoreListResponse implements Serializable {
         this.size = size;
         this.totalElements = totalElements;
         this.totalPages = totalPages;
-    } 
+    }
+
+	public StoreListResponse() {
+		super(); 
+	} 
 
 }
